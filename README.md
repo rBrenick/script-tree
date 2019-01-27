@@ -28,4 +28,6 @@ ScriptTree.ScriptTree.main()
 
 </pre>
 
+If you work in a studio / with multiple people, I would recommend pointing the folder at a network path so it's easier to access scripts from any machine.
+
 Special Thanks to Niels Vaes for adding some convenience stuff to this tool, and throwing me some good feature ideas.
