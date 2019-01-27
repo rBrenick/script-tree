@@ -6,21 +6,25 @@ Maya Qt file tree view of scripts
 
 # Install options
 
+<pre>
 Run install_maya_mod.bat (will create a .mod file in your maya/modules folder)
 Restart Maya
-
+</pre>
 
 Alternatively
 
 <pre>
 import sys
-sys.path.append(r"YOUR_GIT_FOLDER\ScriptTree\src\scripts")
+sys.path.append(r"LOCAL_FOLDER\ScriptTree\src\scripts")
 </pre>
 
 
-# Execute the command
+# Start the tool
 <pre>
+
 import ScriptTree.ScriptTree
+ScriptTree.ScriptTree.set_dock_to_script_editor(True)  # Use this if you want to dock it directly to the script editor
 ScriptTree.ScriptTree.main()
+
 </pre>
 
