@@ -1,5 +1,7 @@
 # ScriptTree
-Maya Qt file tree view of scripts
+A Qt FileTreeView of Maya scripts.
+
+The Poor mans Charcoal.
 
 ![script tree in action in maya](https://raw.githubusercontent.com/rBrenick/ScriptTree/master/docs/example_image.PNG)
 
@@ -28,3 +30,4 @@ ScriptTree.ScriptTree.main()
 
 </pre>
 
+Special Thanks to Niels Vaes for adding some convenience stuff to this tool, and throwing me some good feature ideas.
