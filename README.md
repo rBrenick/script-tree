@@ -4,23 +4,23 @@ Maya Qt file tree view of scripts
 ![script tree in action in maya](https://raw.githubusercontent.com/rBrenick/ScriptTree/master/docs/example_image.PNG)
 
 
-Install options
+# Install options
 
------------------------------------------------------
 Run install_maya_mod.bat (will create a .mod file in your maya/modules folder)
 Restart Maya
 
-OR
-<code>
+
+Alternatively
+
+<pre>
 import sys
-sys.path.append(r"GITFOLDER\ScriptTree\src\scripts")
-</code>
------------------------------------------------------
+sys.path.append(r"YOUR_GIT_FOLDER\ScriptTree\src\scripts")
+</pre>
 
 
 # Execute the command
-<code>
+<pre>
 import ScriptTree.ScriptTree
 ScriptTree.ScriptTree.main()
-</code>
+</pre>
 
