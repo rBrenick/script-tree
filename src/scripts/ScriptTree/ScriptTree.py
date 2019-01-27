@@ -77,7 +77,6 @@ class ScriptTreeWindow(QMainWindow):
         self.tree_widgets = ScriptFileTreeWidgets()
         self.my_QMenu_bar = self.menuBar()
 
-
         self.setupUI()
 
     def setupUI(self):
@@ -113,10 +112,6 @@ class ScriptTreeWindow(QMainWindow):
         if hotkey:
             action.setShortcut(hotkey)
         menu.addAction(action)
-
-    def dockCloseEventTriggered(self):
-        pass
-        # self.deleteInstances()
 
 
 class ScriptTreeDockableWindow(MayaQWidgetDockableMixin, ScriptTreeWindow):
@@ -364,10 +359,10 @@ class ScriptTreeWidget(QWidget):
         actions.append({"Show in Explorer": self.open_path_in_explorer})
         actions.append({"Open Backup Folder": self.open_backup_folder})
 
-        menu = self.buildContextMenu(actions)
+        menu = self.build_context_menu(actions)
         menu.exec_(self.tree_view.viewport().mapToGlobal(position))
 
-    def buildContextMenu(self, actions):
+    def build_context_menu(self, actions):
         menu = QMenu(self)
         for action in actions:
             if action == "SEPERATOR":
@@ -628,7 +623,6 @@ class ScriptTab(object):
         self.index = tab_layout.getChildArray().index(tab_name)
         self.label = tab_layout.getTabLabel()[self.index]
 
-        # self.textArea = reporter_qt.findChildren(QTextDocument) # This maybe actually works?
         """
         # This will just save constantly on text change. 
         # Use this if you want your Hardrive to die an early, glorious, death
@@ -909,12 +903,6 @@ def add_script_tab_to_settings(script_tab):
     settings = FileTreeSettings()
     settings.data[FileTreeSettings.kTabPaths][file_name] = script_tab.filePath
     settings.save()
-
-
-
-
-
-
 
 
 def new_tab():
