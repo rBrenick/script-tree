@@ -77,6 +77,7 @@ class ScriptTreeWindow(QMainWindow):
         self.tree_widgets = ScriptFileTreeWidgets()
         self.my_QMenu_bar = self.menuBar()
 
+
         self.setupUI()
 
     def setupUI(self):
@@ -94,12 +95,14 @@ class ScriptTreeWindow(QMainWindow):
         # self.create_action(name="Colorize Script Editor", command=colorizeScriptEditor, menu=file_menu)
         self.create_action(name="------------------", menu=file_menu)
         self.create_action(name="Backup Tree", command=backup_tree, menu=file_menu)
+        file_menu.setTearOffEnabled(True)
 
         # edit menu
         edit_menu = self.my_QMenu_bar.addMenu('Edit')
         self.create_action(name="Clear Output", command=clear_script_output, hotkey="Alt+Shift+D", menu=edit_menu)
         self.create_action(name="Comment Selected Lines", command=toggle_comment_selected_lines, hotkey="Ctrl+/", menu=edit_menu)
         self.create_action(name="Insert pm.selected()[0]", command=insert_pm_selected, hotkey="Ctrl+Alt+S", menu=edit_menu)
+        edit_menu.setTearOffEnabled(True)
 
         self.tree_widgets.load_settings()
 
