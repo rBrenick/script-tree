@@ -1,10 +1,9 @@
 # ScriptTree
 A Qt FileTreeView of Maya scripts.
 
-The Poor mans Charcoal.
-
 ![script tree in action in maya](https://raw.githubusercontent.com/rBrenick/ScriptTree/master/docs/example_image.PNG)
 
+The poor mans Charcoal.
 
 # Install options
 
