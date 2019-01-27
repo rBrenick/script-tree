@@ -3,8 +3,7 @@ A Qt FileTreeView of Maya scripts.
 
 ![script tree in action in maya](https://raw.githubusercontent.com/rBrenick/ScriptTree/master/docs/example_image.PNG)
 
-The poor mans Charcoal.
-
+The poor mans <a href="http://zurbrigg.com/charcoal-editor-2">Charcoal Editor.</a>
 # Install options
 
 <pre>
