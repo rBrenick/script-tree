@@ -1056,17 +1056,22 @@ def main(*args):
     workspace_name = name + "WorkspaceControl"
     default_width = 355
 
-    dock = pm.optionVar.get(stk.opVar_dockToScriptEditor, False)
-    create_on_startup = pm.optionVar.get(stk.opVar_CreateOnScriptEditorStart, False)
+    docking_enabled = pm.optionVar.get(stk.opVar_dockToScriptEditor, False)
+    create_on_script_editor_startup = pm.optionVar.get(stk.opVar_CreateOnScriptEditorStart, False)
 
     window_exists = get_script_editor_window()
-    if dock and not window_exists:
+    if docking_enabled and not window_exists:
         pm.mel.ScriptEditor()
 
     delete_workspace_control(workspace_name)
+
     dockable_widget = ScriptTreeDockableWindow(name=name)
 
-    if dock:
+    if docking_enabled:
+
+        script_editor_window = get_script_editor_window().asQtObject()
+        before_dock_height = script_editor_window.height()
+
         if not pm.workspaceControl(workspace_name, query=True, exists=True):
             pm.workspaceControl(workspace_name, initialWidth=355)
 
@@ -1077,10 +1082,9 @@ def main(*args):
             workspace_qt_object = pm.ui.PyUI(workspace_name).asQtObject()
             object_splitter = workspace_qt_object.findChildren(QSplitter)[0]
 
-            script_editor_window = workspace_qt_object.window()
-            current_width, current_height = script_editor_window.width(), script_editor_window.height()
-            new_script_editor_size = (current_width + default_width, current_height)
-            workspace_qt_object.window().resize(*new_script_editor_size)
+            after_dock_width = script_editor_window.width()
+            new_size = (after_dock_width + default_width - 90, before_dock_height)  # not sure why -90 but okay
+            script_editor_window.resize(*new_size)
 
             object_splitter.moveSplitter(default_width, 1)
             object_splitter.setHandleWidth(10)
@@ -1089,12 +1093,12 @@ def main(*args):
             logging.info("ScriptTree - Setting Width Error: {}".format(e))
 
     else:
-        # TODO: make that ScriptTree can be created into an already saved layout and not go nuts
         pm.workspaceControl(workspace_name, edit=True, floating=True)
 
-    if create_on_startup:  # TODO set it to start with every script editor
-        pass
+    if create_on_script_editor_startup:
+        # TODO set option to start with every script editor
         # pm.mel.eval("""global proc ScriptEditor(){if (`scriptedPanel -q -exists scriptEditorPanel1`) { scriptedPanel -e -tor scriptEditorPanel1; showWindow scriptEditorPanel1Window; selectCurrentExecuterControl; }else { CommandWindow; }; python("import atcore.atmaya.menu as mayaMenu;mayaMenu.runMenuCommand('main()', 'atextensions.dice.maya.ScriptTree.ScriptTree', 'python')");};""")
+        pass
 
     return dockable_widget
 
