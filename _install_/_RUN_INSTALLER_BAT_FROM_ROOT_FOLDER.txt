@@ -1,0 +1,11 @@
+#
+Cheeky lil command if you don't want to restart maya the first time
+
+import sys
+tool_path = r"D:\Git\maya-tool-template\src\scripts"
+if tool_path not in sys.path:
+    sys.path.append(tool_path)
+
+from TOOL_NAME import TOOL_NAME_UI
+TOOL_NAME_UI.main()
+

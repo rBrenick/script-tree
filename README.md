@@ -7,7 +7,7 @@ The poor mans <a href="http://zurbrigg.com/charcoal-editor-2">Charcoal Editor.</
 # Install options
 
 <pre>
-Run install_maya_mod.bat (will create a .mod file in your maya/modules folder)
+Run installer.bat (will create a .mod file in your maya/modules folder)
 Restart Maya
 </pre>
 
@@ -15,16 +15,16 @@ Alternatively
 
 <pre>
 import sys
-sys.path.append(r"LOCAL_FOLDER\ScriptTree\src\scripts")
+sys.path.append(r"UNZIP_FOLDER\script-tree")
 </pre>
 
 
 # Start the tool
 <pre>
 
-import ScriptTree.ScriptTree
-ScriptTree.ScriptTree.set_dock_to_script_editor(True)  # Use this if you want to dock it directly to the script editor
-ScriptTree.ScriptTree.main()
+import script_tree.script_tree_ui
+script_tree.script_tree_ui.set_dock_to_script_editor(True)  # Use this if you want to dock it directly to the script editor
+script_tree.script_tree_ui.main()
 
 </pre>
 
