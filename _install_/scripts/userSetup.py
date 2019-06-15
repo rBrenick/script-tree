@@ -9,7 +9,6 @@ def common_startup():
     package_dir = os.path.dirname(os.path.dirname(os.path.dirname(inspect.getfile(inspect.currentframe())))) # my god
     
     if package_dir not in sys.path:
-        print "adding", package_dir
         site.addsitedir(package_dir)
 
 common_startup()
