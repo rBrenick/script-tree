@@ -30,7 +30,7 @@ function SafeRemove
 # Lotsa variables
 $USER_DOWNLOADS_FOLDER = "$env:userprofile\Downloads"
 
-$TOOL_GIT_REPO = "https://github.com/rBrenick/maya-tool-template/archive/master.zip" # modify these after uploading the tool
+$TOOL_GIT_REPO = "https://github.com/rBrenick/script-tree/archive/master.zip" # modify these after uploading the tool
 $UPDATE_PATHS = @("docs", "src", "README.md")
 
 $CURRENT_TOOL_FOLDER = (Get-Item -Path ".").FullName
