@@ -31,7 +31,7 @@ function SafeRemove
 $USER_DOWNLOADS_FOLDER = "$env:userprofile\Downloads"
 
 $TOOL_GIT_REPO = "https://github.com/rBrenick/script-tree/archive/master.zip" # modify these after uploading the tool
-$UPDATE_PATHS = @("docs", "src", "README.md")
+$UPDATE_PATHS = @("docs", "script_tree", "README.md", "setup.py")
 
 $CURRENT_TOOL_FOLDER = (Get-Item -Path ".").FullName
 $CURRENT_TOOL_NAME = (Get-Item -Path ".").Name
