@@ -1,7 +1,7 @@
 # ScriptTree
 A Qt FileTreeView of Maya scripts.
 
-![script tree in action in maya](https://raw.githubusercontent.com/rBrenick/ScriptTree/master/docs/example_image.PNG)
+![script tree in action in maya](https://raw.githubusercontent.com/rBrenick/script-tree/master/docs/example_image.PNG)
 
 The poor mans <a href="http://zurbrigg.com/charcoal-editor-2">Charcoal Editor.</a>
 # Update
