@@ -47,7 +47,7 @@ class ScriptEditorSettings(QtCore.QSettings):
             QtCore.QSettings.IniFormat,
             QtCore.QSettings.UserScope,
             'ScriptTree',
-            'script_tree'  # saves in C:\Users\Richa\AppData\Roaming\ScriptTree
+            'script_tree'  # saves in %APPDATA%\ScriptTree\script_tree.ini
         )
 
 
