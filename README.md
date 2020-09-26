@@ -4,6 +4,15 @@ A Qt FileTreeView of Maya scripts.
 ![script tree in action in maya](https://raw.githubusercontent.com/rBrenick/ScriptTree/master/docs/example_image.PNG)
 
 The poor mans <a href="http://zurbrigg.com/charcoal-editor-2">Charcoal Editor.</a>
+# Update
+
+2020-09-26 - Rewrote the tool from scratch.
+New features:
+- Switch between Run Script and Edit Script on double click
+- Search all scripts for specific string
+- Better integration to maya's docking procedures
+- Re-open recently closed tabs with "Ctrl+Shift+T"
+
 # Install options
 
 <pre>
@@ -22,9 +31,8 @@ sys.path.append(r"UNZIP_FOLDER\script-tree")
 # Start the tool
 <pre>
 
-import script_tree.script_tree_ui
-script_tree.script_tree_ui.set_dock_to_script_editor(True)  # Use this if you want to dock it directly to the script editor
-script_tree.script_tree_ui.main()
+import script_tree
+script_tree.main()
 
 </pre>
 
