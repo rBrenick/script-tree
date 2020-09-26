@@ -195,7 +195,8 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
         if not len(self.recently_closed_scripts):
             return
         recent_script_path = self.recently_closed_scripts.pop(-1)
-        dcc_actions.open_script(recent_script_path)
+        if recent_script_path:  # recent_script_path may be an empty string if it doesn't have a path defined
+            dcc_actions.open_script(recent_script_path)
 
     def action_run_script(self):
         file_path = self.ui.get_selected_path()
