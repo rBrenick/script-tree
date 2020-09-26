@@ -8,8 +8,8 @@ The poor mans <a href="http://zurbrigg.com/charcoal-editor-2">Charcoal Editor.</
 
 2020-09-26 - Rewrote the tool from scratch.
 New features:
-- Switch between Run Script and Edit Script on double click
-- Search all scripts for specific string
+- Switch between 'Run Script' and 'Edit Script' for the double click action
+- Search all scripts for a specific string with "Ctrl+Shift+F"
 - Better integration to maya's docking procedures
 - Re-open recently closed tabs with "Ctrl+Shift+T"
 
