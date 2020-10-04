@@ -150,8 +150,8 @@ def open_search_dialog():
     pm.showWindow("commandSearchAndReplaceWnd")
 
 
-def eval_deferred(*args, **kwargs):
-    pm.evalDeferred(*args, **kwargs)
+def eval_deferred(func):
+    pm.evalDeferred(func)
 
 
 def add_to_repeat_commands(exec_command):

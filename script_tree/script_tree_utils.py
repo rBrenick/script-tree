@@ -2,12 +2,21 @@ import logging
 import os
 import shutil
 import subprocess
+import sys
 import time
 from functools import partial
 
 from PySide2 import QtCore, QtWidgets, QtGui
 
-from . import script_tree_dcc_maya as dcc_actions
+if os.path.basename(sys.executable) == "maya.exe":
+    from . import script_tree_dcc_maya as dcc_actions
+    dcc_name = "Maya"
+else:
+    from . import script_tree_dcc_mobu as dcc_actions
+    dcc_name = "Motionbuilder"
+
+settings_name = "script_tree_" + dcc_name.lower()
+
 from . import ui_utils
 
 
@@ -24,8 +33,9 @@ class ScriptTreeConstants:
     if "documents" not in user_documents_folder.lower():  # Standalone interpreter goes to username folder not documents
         user_documents_folder += "/Documents"
 
-    script_tree_folder = os.path.join(user_documents_folder, script_tree_folder_name).replace("\\", "/")
-    default_script_folder = os.path.join(script_tree_folder, default_folder_name).replace("\\", "/")
+    script_tree_folder = os.path.join(user_documents_folder, script_tree_folder_name, dcc_name).replace("\\", "/")
+    # default_script_folder = os.path.join(script_tree_folder, default_folder_name).replace("\\", "/")
+    default_script_folder = "M:/Art/Tools/{}/Scripts".format(dcc_name)
     script_backup_folder = os.path.join(script_tree_folder, "ScriptTree_ScriptBackup").replace("\\", "/")
     tree_backup_folder = os.path.join(script_tree_folder, "ScriptTree_TreeBackup").replace("\\", "/")
 
@@ -47,7 +57,7 @@ class ScriptEditorSettings(QtCore.QSettings):
             QtCore.QSettings.IniFormat,
             QtCore.QSettings.UserScope,
             'ScriptTree',
-            'script_tree'  # saves in %APPDATA%\ScriptTree\script_tree.ini
+            settings_name  # saves in %APPDATA%\ScriptTree\script_tree_maya.ini
         )
 
 
@@ -133,7 +143,6 @@ def non_specific_hotkey(shortcut, shortcut_seq):
     # key = QtCore.Qt.Key(key_code)
 
     key_event_args = []
-
     if "ctrl" in shortcut_seq.lower():
         key_event_args.append(QtCore.Qt.KeyboardModifier.ControlModifier)
 
@@ -143,7 +152,9 @@ def non_specific_hotkey(shortcut, shortcut_seq):
     if "alt" in shortcut_seq.lower():
         key_event_args.append(QtCore.Qt.KeyboardModifier.AltModifier)
 
-    e = QtGui.QKeyEvent(QtCore.QEvent.KeyPress, key_code, *key_event_args)
+    keyboard_modifiers = QtCore.Qt.KeyboardModifiers(*key_event_args) # I guess this works?
+
+    e = QtGui.QKeyEvent(QtCore.QEvent.KeyPress, key_code, keyboard_modifiers)
     QtCore.QCoreApplication.postEvent(ui_utils.get_app_window(), e)
 
     dcc_actions.eval_deferred(partial(shortcut.setEnabled, 1))  # re-active the shortcut after evaluation has finished

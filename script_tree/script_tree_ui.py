@@ -4,12 +4,18 @@ __modified__ = "2020-09-26"
 
 import logging
 import os
+import re
 import runpy
 import subprocess
+import sys
 
 from PySide2 import QtCore, QtWidgets
 
-from . import script_tree_dcc_maya as dcc_actions
+if os.path.basename(sys.executable) == "maya.exe":
+    from . import script_tree_dcc_maya as dcc_actions
+else:
+    from . import script_tree_dcc_mobu as dcc_actions
+
 from . import script_tree_utils as stu
 from . import ui_utils
 
@@ -24,7 +30,7 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
         self.setWindowTitle(lk.window_text)
 
         self.ui = ScriptTreeWidget()
-        self.setLayout(self.ui.main_layout)
+        self.apply_ui_widget()
 
         self.recently_closed_scripts = []
 
@@ -95,7 +101,7 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
 
     def filter_results(self):
 
-        filter_text = self.ui.search_bar.text()
+        filter_text = re.sub(r'[^\x00-\x7F]+', '', self.ui.search_bar.text())  # strip unicode characters until py3
 
         if not filter_text:
             self.ui.model.setNameFilters(self.ui.default_filter)
