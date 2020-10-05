@@ -140,19 +140,21 @@ def non_specific_hotkey(shortcut, shortcut_seq):
 
     key_str = shortcut_seq.split("+")[-1]
     key_code = QtGui.QKeySequence.fromString(key_str)[0]
-    # key = QtCore.Qt.Key(key_code)
 
-    key_event_args = []
+    keyboard_modifiers = QtCore.Qt.KeyboardModifier.NoModifier
+
+    # woah, bitwise operators
     if "ctrl" in shortcut_seq.lower():
-        key_event_args.append(QtCore.Qt.KeyboardModifier.ControlModifier)
+        keyboard_modifiers = keyboard_modifiers | QtCore.Qt.KeyboardModifier.ControlModifier
 
     if "shift" in shortcut_seq.lower():
-        key_event_args.append(QtCore.Qt.KeyboardModifier.ShiftModifier)
+        keyboard_modifiers = keyboard_modifiers | QtCore.Qt.KeyboardModifier.ShiftModifier
 
     if "alt" in shortcut_seq.lower():
-        key_event_args.append(QtCore.Qt.KeyboardModifier.AltModifier)
+        keyboard_modifiers = keyboard_modifiers | QtCore.Qt.KeyboardModifier.AltModifier
 
-    keyboard_modifiers = QtCore.Qt.KeyboardModifiers(*key_event_args) # I guess this works?
+    # keyboard_modifiers = QtCore.Qt.KeyboardModifiers(*key_event_args) # I guess this works?
+    # nope it did not work, turns out Python Bitwise operators are weird but cool
 
     e = QtGui.QKeyEvent(QtCore.QEvent.KeyPress, key_code, keyboard_modifiers)
     QtCore.QCoreApplication.postEvent(ui_utils.get_app_window(), e)
