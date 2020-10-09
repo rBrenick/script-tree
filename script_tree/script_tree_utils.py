@@ -77,7 +77,7 @@ def open_path_in_explorer(file_path):
         print(e)
         # log.warning("Attempt to open path in explorer failed")
 
-
+'''
 def check_script_tree_in_focus():
     script_tree_is_in_focus = False
 
@@ -105,6 +105,8 @@ def create_script_tree_hotkey(shortcut_seq=None, command=None, *args, **kwargs):
     """
     Create shortcut that only triggers when Script Tree is focused
     This exists because QtCore.Qt.WindowShortcut context also triggers when ScriptTree is docked to the main window
+    
+    Doesn't really work because it overwrites other QT Shortcuts, but hey, I tried.
 
     Credit to: https://bindpose.com/custom-global-hotkey-maya/ for the idea
 
@@ -160,7 +162,7 @@ def non_specific_hotkey(shortcut, shortcut_seq):
     QtCore.QCoreApplication.postEvent(ui_utils.get_app_window(), e)
 
     dcc_actions.eval_deferred(partial(shortcut.setEnabled, 1))  # re-active the shortcut after evaluation has finished
-
+'''
 
 def get_backup_folder_for_script(script_path):
     file_name, file_extension = os.path.splitext(os.path.basename(script_path))

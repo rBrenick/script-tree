@@ -54,19 +54,20 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
             {"Backup Script Tree": self.action_backup_tree}
         ]
 
-        stu.create_script_tree_hotkey("Ctrl+N", command=self.action_new_tab)
-        stu.create_script_tree_hotkey("Ctrl+O", command=lambda: self.action_open_script(prompt_path=True))
-        stu.create_script_tree_hotkey("Ctrl+S", command=self.action_save_tab)
-        stu.create_script_tree_hotkey("Ctrl+Shift+S", command=lambda: self.action_save_tab(prompt_path=True))
-        stu.create_script_tree_hotkey("Ctrl+W", command=self.action_close_tab)
-        stu.create_script_tree_hotkey("Ctrl+Shift+T", command=self.action_reopen_recently_closed)
-        stu.create_script_tree_hotkey("Ctrl+F", command=dcc_actions.open_search_dialog)
-        stu.create_script_tree_hotkey("Ctrl+Shift+F", command=self.open_script_search_dialog)
-        stu.create_script_tree_hotkey("F5", command=dcc_actions.reload_selected_tab)
 
-        stu.create_script_tree_hotkey("Alt+Shift+D", command=dcc_actions.clear_script_output)
-        stu.create_script_tree_hotkey("Ctrl+Alt+S", command=dcc_actions.insert_pm_selected)
-        stu.create_script_tree_hotkey("Ctrl+/", command=dcc_actions.toggle_comment_selected_lines)
+        self.create_action("Ctrl+N", command=self.action_new_tab)
+        self.create_action("Ctrl+O", command=lambda: self.action_open_script(prompt_path=True))
+        self.create_action("Ctrl+S", command=self.action_save_tab)
+        self.create_action("Ctrl+Shift+S", command=lambda: self.action_save_tab(prompt_path=True))
+        self.create_action("Ctrl+W", command=self.action_close_tab)
+        self.create_action("Ctrl+Shift+T", command=self.action_reopen_recently_closed)
+        self.create_action("Ctrl+F", command=dcc_actions.open_search_dialog)
+        self.create_action("Ctrl+Shift+F", command=self.open_script_search_dialog)
+        self.create_action("F5", command=dcc_actions.reload_selected_tab)
+
+        self.create_action("Alt+Shift+D", command=dcc_actions.clear_script_output)
+        self.create_action("Ctrl+Alt+S", command=dcc_actions.insert_pm_selected)
+        self.create_action("Ctrl+/", command=dcc_actions.toggle_comment_selected_lines)
 
         self.setup_connections()
 
@@ -78,6 +79,21 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
         self.filter_timer = QtCore.QTimer()
         self.filter_timer.setSingleShot(True)
         self.filter_timer.timeout.connect(self.filter_results)
+
+        # hook up shortcut actions to the script editor widget after everything is loaded and the widget might exist
+        dcc_actions.eval_deferred(self.add_actions_to_script_editor)
+
+    def create_action(self, shortcut, command):
+        shortcut_action = QtWidgets.QAction(self)
+        shortcut_action.triggered.connect(command)
+        shortcut_action.setShortcut(shortcut)
+        shortcut_action.setShortcutContext(QtCore.Qt.WidgetWithChildrenShortcut)
+        self.addAction(shortcut_action)
+
+    def add_actions_to_script_editor(self):
+        dcc_script_editor_widget = dcc_actions.get_script_editor_widget() # type: QtWidgets.QTabWidget
+        for action in self.actions():
+            dcc_script_editor_widget.addAction(action)
 
     def setup_connections(self):
         # buttons and widget signals

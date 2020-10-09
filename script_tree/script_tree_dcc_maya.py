@@ -1,8 +1,10 @@
 import logging
 import os
 
-import pymel.core as pm
+from . import ui_utils
+from PySide2 import QtWidgets
 
+import pymel.core as pm
 
 def open_script(script_path):
     """
@@ -156,3 +158,12 @@ def eval_deferred(func):
 
 def add_to_repeat_commands(exec_command):
     pm.repeatLast(ac=exec_command)
+
+
+def get_script_editor_widget():
+    win = ui_utils.get_app_window()
+    tabs = win.findChildren(QtWidgets.QTabWidget)
+    for tab in tabs:
+        if tab.tabText(0) == "Script Editor":
+            return tab
+    return None

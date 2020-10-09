@@ -1,6 +1,8 @@
 import logging
 import os
 
+# TODO: make this module
+
 def open_script(script_path):
     """
     This is pretty much a duplicate of scriptEditorPanel.mel - global proc loadFileInNewTab(),
@@ -71,3 +73,6 @@ def eval_deferred(*args, **kwargs):
 
 def add_to_repeat_commands(exec_command):
     pass
+
+def get_script_editor_widget():
+    return
