@@ -34,8 +34,8 @@ class ScriptTreeConstants:
         user_documents_folder += "/Documents"
 
     script_tree_folder = os.path.join(user_documents_folder, script_tree_folder_name, dcc_name).replace("\\", "/")
-    # default_script_folder = os.path.join(script_tree_folder, default_folder_name).replace("\\", "/")
-    default_script_folder = "M:/Art/Tools/{}/Scripts".format(dcc_name)
+    default_script_folder = os.path.join(script_tree_folder, default_folder_name).replace("\\", "/")
+    # default_script_folder = "M:/Art/Tools/{}/Scripts".format(dcc_name)
     script_backup_folder = os.path.join(script_tree_folder, "ScriptTree_ScriptBackup").replace("\\", "/")
     tree_backup_folder = os.path.join(script_tree_folder, "ScriptTree_TreeBackup").replace("\\", "/")
 
