@@ -143,7 +143,7 @@ if currently_using_maya:
     from maya import cmds
 
 
-    class DockableWidget(MayaQWidgetDockableMixin, QtWidgets.QWidget):
+    class DockableWidget(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         docking_object_name = "DockableWidget"
 
         def __init__(self, parent=None):
@@ -152,8 +152,8 @@ if currently_using_maya:
             self.setObjectName(self.docking_object_name)  # this one is important
             self.setWindowTitle('Custom Maya Mixin Workspace Control')
 
-        def apply_ui_widget(self):
-            self.setLayout(self.ui.main_layout)
+        def apply_ui_widget(self, widget):
+            self.setCentralWidget(widget)
 
 
     def create_dockable_widget(widget_class,
@@ -204,8 +204,8 @@ else:
             self.setWindowTitle('MotionBuilder Dockable Widget')
             self.setFloating(True)
 
-        def apply_ui_widget(self):
-            self.setWidget(self.ui)
+        def apply_ui_widget(self, widget):
+            self.setWidget(widget)
 
 
     def create_dockable_widget(widget_class,

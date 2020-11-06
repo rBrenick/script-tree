@@ -11,7 +11,9 @@ import sys
 
 from PySide2 import QtCore, QtWidgets
 
-if os.path.basename(sys.executable) == "maya.exe":
+USING_MAYA = os.path.basename(sys.executable) == "maya.exe"
+
+if USING_MAYA:
     from . import script_tree_dcc_maya as dcc_actions
 else:
     from . import script_tree_dcc_mobu as dcc_actions
@@ -22,7 +24,7 @@ from . import ui_utils
 lk = stu.ScriptTreeConstants
 
 
-class ScriptTreeWindow(ui_utils.DockableWidget):
+class ScriptTreeWindow(ui_utils.DockableWidget, QtWidgets.QMainWindow):
     docking_object_name = "ScriptTreeWindow"
 
     def __init__(self, *args, **kwargs):
@@ -30,7 +32,7 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
         self.setWindowTitle(lk.window_text)
 
         self.ui = ScriptTreeWidget()
-        self.apply_ui_widget()
+        self.apply_ui_widget(self.ui)
 
         self.recently_closed_scripts = []
 
@@ -55,19 +57,37 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
         ]
 
 
-        self.create_action("Ctrl+N", command=self.action_new_tab)
-        self.create_action("Ctrl+O", command=lambda: self.action_open_script(prompt_path=True))
-        self.create_action("Ctrl+S", command=self.action_save_tab)
-        self.create_action("Ctrl+Shift+S", command=lambda: self.action_save_tab(prompt_path=True))
-        self.create_action("Ctrl+W", command=self.action_close_tab)
-        self.create_action("Ctrl+Shift+T", command=self.action_reopen_recently_closed)
-        self.create_action("Ctrl+F", command=dcc_actions.open_search_dialog)
-        self.create_action("Ctrl+Shift+F", command=self.open_script_search_dialog)
-        self.create_action("F5", command=dcc_actions.reload_selected_tab)
+        # MotionBuilder crashes on menuBar for some reason
+        file_menu = self.menuBar().addMenu("File") if USING_MAYA else None
+        edit_menu = self.menuBar().addMenu("Edit") if USING_MAYA else None
 
-        self.create_action("Alt+Shift+D", command=dcc_actions.clear_script_output)
-        self.create_action("Ctrl+Alt+S", command=dcc_actions.insert_pm_selected)
-        self.create_action("Ctrl+/", command=dcc_actions.toggle_comment_selected_lines)
+        # File Menu
+        self.create_action("Ctrl+N", text="New Script",
+                           command=self.action_new_tab, menu=file_menu)
+        self.create_action("Ctrl+O", text="Open Script",
+                           command=lambda: self.action_open_script(prompt_path=True), menu=file_menu)
+        self.create_action("Ctrl+S", text="Save Script",
+                           command=self.action_save_tab, menu=file_menu)
+        self.create_action("Ctrl+Shift+S", text="Save Script as...",
+                           command=lambda: self.action_save_tab(prompt_path=True), menu=file_menu)
+        self.create_action("Ctrl+W", text="Close Script",
+                           command=self.action_close_tab, menu=file_menu)
+        self.create_action("Ctrl+Shift+T", text="Reopen closed Script",
+                           command=self.action_reopen_recently_closed, menu=file_menu)
+        self.create_action("F5", text="Reload Script",
+                           command=dcc_actions.reload_selected_tab, menu=file_menu)
+
+        # Edit Menu
+        self.create_action("Ctrl+F", text="Find/Replace",
+                           command=dcc_actions.open_search_dialog, menu=edit_menu)
+        self.create_action("Ctrl+Shift+F", text="Find in ScriptTree",
+                           command=self.open_script_search_dialog, menu=edit_menu)
+        self.create_action("Alt+Shift+D", text="Clear Output",
+                           command=dcc_actions.clear_script_output, menu=edit_menu)
+        self.create_action("Ctrl+Alt+S", text="Insert pm.selected()[0]",
+                           command=dcc_actions.insert_pm_selected, menu=edit_menu)
+        self.create_action("Ctrl+/", text="Toggle Comment",
+                           command=dcc_actions.toggle_comment_selected_lines, menu=edit_menu)
 
         self.setup_connections()
 
@@ -83,12 +103,17 @@ class ScriptTreeWindow(ui_utils.DockableWidget):
         # hook up shortcut actions to the script editor widget after everything is loaded and the widget might exist
         dcc_actions.eval_deferred(self.add_actions_to_script_editor)
 
-    def create_action(self, shortcut, command):
+    def create_action(self, shortcut, command=None, text="", menu=None):
         shortcut_action = QtWidgets.QAction(self)
-        shortcut_action.triggered.connect(command)
         shortcut_action.setShortcut(shortcut)
         shortcut_action.setShortcutContext(QtCore.Qt.WidgetWithChildrenShortcut)
         self.addAction(shortcut_action)
+        if command:
+            shortcut_action.triggered.connect(command)
+        if text:
+            shortcut_action.setText(text)
+        if menu:
+            menu.addAction(shortcut_action)
 
     def add_actions_to_script_editor(self):
         dcc_script_editor_widget = dcc_actions.get_script_editor_widget() # type: QtWidgets.QTabWidget
