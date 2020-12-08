@@ -117,6 +117,8 @@ class ScriptTreeWindow(ui_utils.DockableWidget, QtWidgets.QMainWindow):
 
     def add_actions_to_script_editor(self):
         dcc_script_editor_widget = dcc_actions.get_script_editor_widget() # type: QtWidgets.QTabWidget
+        if not dcc_script_editor_widget:
+            return
         for action in self.actions():
             dcc_script_editor_widget.addAction(action)
 
