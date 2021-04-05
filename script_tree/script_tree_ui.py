@@ -49,6 +49,7 @@ class ScriptTreeWindow(ui_utils.DockableWidget, QtWidgets.QMainWindow):
                                "on_trigger_command": self.action_setup_double_click_connections
                                }},
             "-",
+            {"Copy path": self.action_copy_path_to_clipboard},
             {"Show in explorer": self.action_open_path_in_explorer},
             {"Open backup folder": self.action_open_backup_folder},
             "-",
@@ -209,6 +210,11 @@ class ScriptTreeWindow(ui_utils.DockableWidget, QtWidgets.QMainWindow):
 
     def action_open_path_in_explorer(self):
         stu.open_path_in_explorer(self.ui.get_selected_path())
+        
+    def action_copy_path_to_clipboard(self):
+        clipboard = QtWidgets.QApplication.clipboard()
+        path = self.ui.get_selected_path()
+        clipboard.setText(path)
 
     def action_open_backup_folder(self):
         backup_folder = stu.get_backup_folder_for_script(self.ui.get_selected_path())
