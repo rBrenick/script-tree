@@ -298,6 +298,7 @@ class ScriptTreeWidget(QtWidgets.QWidget):
 
         self.search_bar = QtWidgets.QLineEdit()
         self.search_bar.setPlaceholderText("search")
+        self.search_bar.setClearButtonEnabled(True)
 
         self.default_filter = ["*.py", "*.mel"]
 
